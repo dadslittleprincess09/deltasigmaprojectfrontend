@@ -18,6 +18,7 @@ function Navbar() {
       <div>
         <Link to="/" style={{ color: "white", marginRight: "1rem" }}>Home</Link>
         <Link to="/cart" style={{ color: "white" }}>Cart ({cartItems.length})</Link>
+        
       </div>
     </nav>
   );

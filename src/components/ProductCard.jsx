@@ -1,52 +1,41 @@
 import { useContext } from "react";
 import { CartContext } from "../context/CartContext";
-import { useNavigate } from "react-router-dom";
 
 function ProductCard({ product }) {
   const { setCartItems } = useContext(CartContext);
-  const navigate = useNavigate();
+const handleAddToCart = async () => {
+  try {
+    const backendPostUrl = import.meta.env.VITE_BACKEND_POST;
 
-  const handleAddToCart = async () => {
-    try {
-      const backendPostUrl = import.meta.env.VITE_BACKEND_POST;
+    const res = await fetch(backendPostUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: product.title,
+        description: product.description,
+        price: product.price
+      })
+    });
 
-      // POST the product to backend
-      const res = await fetch(backendPostUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: product.title,
-          description: product.description,
-          price: product.price
-        })
-      });
+    if (!res.ok) throw new Error("Failed to add item");
 
-      if (!res.ok) throw new Error("Failed to add item");
+    const itemFromBackend = await res.json();
 
-      const itemFromBackend = await res.json();
+    // ✅ add to cart (stay on same page)
+    setCartItems(prev => [...prev, itemFromBackend]);
 
-      // Update local cart with backend item
-      setCartItems(prev => [...prev, itemFromBackend]);
-
-      // Navigate to cart page
-      navigate("/cart");
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  } catch (err) {
+    console.error(err);
+  }
+};
 
   return (
-    <div style={{
-      border: "1px solid #eee",
-      borderRadius: "8px",
-      padding: "1rem",
-      boxShadow: "0 2px 6px rgba(0,0,0,0.1)"
-    }}>
-      <img src={product.thumbnail} alt={product.title} style={{ height: "150px", objectFit: "cover", borderRadius: "4px", marginBottom: "0.5rem" }} />
+    <div style={{ border: "1px solid #eee", borderRadius: "8px", padding: "1rem" }}>
+      <img src={product.thumbnail} alt={product.title} style={{ height: "150px", objectFit: "cover", borderRadius: "4px" }} />
       <h3>{product.title}</h3>
-      <p style={{ fontSize: "0.9rem", color: "#555" }}>{product.description}</p>
-      <div style={{ fontWeight: "bold", color: "#2874f0", marginBottom: "0.5rem" }}>₹{product.price}</div>
-      <button onClick={handleAddToCart} style={{ backgroundColor: "#2874f0", color: "white", border: "none", padding: "0.5rem", borderRadius: "4px", cursor: "pointer" }}>
+      <p>{product.description}</p>
+      <div style={{ fontWeight: "bold", color: "#2874f0" }}>₹{product.price}</div>
+      <button onClick={handleAddToCart} style={{ backgroundColor: "#2874f0", color: "#fff", padding: "0.5rem", borderRadius: "4px" }}>
         Add to Cart
       </button>
     </div>

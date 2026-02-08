@@ -12,8 +12,8 @@ function Cart() {
       ) : (
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: "1rem" }}>
           {cartItems.map(item => (
-            <div key={item.id} style={{ border: "1px solid #eee", borderRadius: "8px", padding: "1rem", boxShadow: "0 2px 6px rgba(0,0,0,0.1)" }}>
-              <img src={item.thumbnail} alt={item.name} style={{ height: "150px", objectFit: "cover", borderRadius: "4px", marginBottom: "0.5rem" }} />
+            <div key={item.id} style={{ border: "1px solid #eee", borderRadius: "8px", padding: "1rem" }}>
+              <img src={item.thumbnail || "https://via.placeholder.com/150"} alt={item.name} style={{ height: "150px", objectFit: "cover", borderRadius: "4px" }} />
               <h3>{item.name}</h3>
               <p>{item.description}</p>
               <div style={{ fontWeight: "bold", color: "#2874f0" }}>₹{item.price}</div>
