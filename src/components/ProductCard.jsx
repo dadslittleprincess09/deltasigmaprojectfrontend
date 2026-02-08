@@ -22,7 +22,14 @@ const handleAddToCart = async () => {
     const itemFromBackend = await res.json();
 
     // ✅ add to cart (stay on same page)
-    setCartItems(prev => [...prev, itemFromBackend]);
+    // setCartItems(prev => [...prev, itemFromBackend]);
+   setCartItems(prev => [
+  ...prev,
+  {
+    ...itemFromBackend,
+    thumbnail: product.thumbnail // ✅ frontend image
+  }
+]);
 
   } catch (err) {
     console.error(err);
