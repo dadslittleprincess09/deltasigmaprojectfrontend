@@ -1,12 +1,21 @@
 function Footer() {
   return (
-    <footer style={{
-      backgroundColor: "#f1f1f1",
-      padding: "1rem 2rem",
-      textAlign: "center",
-      marginTop: "2rem"
-    }}>
-      &copy; 2026 DeltaSigma Shop. All rights reserved.
+    <footer
+      style={{
+        background: "linear-gradient(90deg, #1e3c72, #2a5298)",
+        color: "#fff",
+        padding: "0.9rem",
+        textAlign: "center",
+        fontSize: "0.9rem",
+        marginTop: "2rem"
+      }}
+    >
+      <strong>
+        DeltaSigma<span style={{ color: "#ffe500" }}>Shop</span>
+      </strong>
+      <span style={{ marginLeft: "6px", opacity: 0.85 }}>
+        © All rights reserved.
+      </span>
     </footer>
   );
 }

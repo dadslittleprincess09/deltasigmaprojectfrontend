@@ -2,23 +2,48 @@ import { createContext, useState } from "react";
 
 export const CartContext = createContext();
 
-export const CartProvider = ({ children }) => {
+export function CartProvider({ children }) {
   const [cartItems, setCartItems] = useState([]);
 
-  const loadCartItem = async (id) => {
-    try {
-      const res = await fetch(`${import.meta.env.VITE_BACKEND_GET}/${id}`);
-      if (!res.ok) throw new Error("Failed to fetch item");
-      const item = await res.json();
-      setCartItems(prev => [...prev, item]);
-    } catch (err) {
-      console.error(err);
-    }
+  const addItem = (item) => {
+    setCartItems((prevItems) => {
+      const existingItem = prevItems.find((i) => i.id === item.id);
+
+      if (existingItem) {
+        return prevItems.map((i) =>
+          i.id === item.id ? { ...i, qty: i.qty + 1 } : i,
+        );
+      }
+
+      return [...prevItems, { ...item, qty: 1 }];
+    });
+  };
+
+  const increase = (id) => {
+    setCartItems((items) =>
+      items.map((item) =>
+        item.id === id ? { ...item, qty: item.qty + 1 } : item,
+      ),
+    );
+  };
+
+  const decrease = (id) => {
+    setCartItems((items) =>
+      items
+        .map((item) => (item.id === id ? { ...item, qty: item.qty - 1 } : item))
+        .filter((item) => item.qty > 0),
+    );
+  };
+
+  const remove = (id) => {
+    setCartItems((items) => items.filter((item) => item.id !== id));
   };
 
   return (
-    <CartContext.Provider value={{ cartItems, setCartItems, loadCartItem }}>
+    <CartContext.Provider
+      value={{ cartItems, addItem, increase, decrease, remove }}
+    >
       {children}
     </CartContext.Provider>
   );
-};
+}
