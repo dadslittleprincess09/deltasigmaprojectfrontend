@@ -12,7 +12,7 @@ function Cart() {
   return (
     <div style={{ padding: "2rem", background: "#f5f7fa", minHeight: "80vh" }}>
       <style>{`
-  @media (max-width: 390px) {
+  @media (max-width: 450px) {
     .cart-card {
       flex-direction: column;
       align-items: center;
