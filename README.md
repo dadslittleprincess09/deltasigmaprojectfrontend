@@ -2,7 +2,7 @@
 
 ## Installation & Run
 
-1. **Clone the repository**
+1.**Clone the repository**
 
 git clone https://github.com/dadslittleprincess09/deltasigmaprojectfrontend.git
 cd deltasigmaprojectfrontend
