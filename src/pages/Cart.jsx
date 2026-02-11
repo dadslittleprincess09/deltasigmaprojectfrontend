@@ -4,10 +4,11 @@ import { CartContext } from "../context/CartContext";
 function Cart() {
   const { cartItems, increase, decrease, remove } = useContext(CartContext);
 
-  const totalPrice = cartItems.reduce(
-    (sum, item) => sum + item.price * item.qty,
-    0,
-  );
+ const totalPrice = cartItems.reduce(
+  (sum, item) => sum + Number((item.price * item.qty).toFixed(2)),
+  0
+);
+
 
   return (
     <div style={{ padding: "2rem", background: "#f5f7fa", minHeight: "80vh" }}>
@@ -77,7 +78,10 @@ function Cart() {
             </p>
 
             <strong style={{ color: "#2874f0" }}>
-              ₹{item.price * item.qty}
+              ₹
+              {(item.price * item.qty).toLocaleString("en-IN", {
+                minimumFractionDigits: 2,
+              })}
             </strong>
 
             <div
@@ -163,7 +167,12 @@ function Cart() {
               fontWeight: "600",
             }}
           >
-            Total: ₹{totalPrice}
+            Total: ₹
+{totalPrice.toLocaleString("en-IN", {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
+})}
+
           </button>
         </div>
       )}
