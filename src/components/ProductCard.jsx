@@ -2,8 +2,9 @@ import { useContext, useState } from "react";
 import { CartContext } from "../context/CartContext";
 
 function ProductCard({ product }) {
-  const { addItem } = useContext(CartContext);
+  const { cartItems, addItem, increase, decrease } = useContext(CartContext);
   const [showMore, setShowMore] = useState(false);
+  const cartItem = cartItems.find((item) => item.id === product.id);
 
   const handleAddToCart = async () => {
     try {
@@ -126,21 +127,83 @@ function ProductCard({ product }) {
       </strong>
 
   
-      <button
-        onClick={handleAddToCart}
-        style={{
-          padding: "10px",
-          background: "linear-gradient(90deg, #1e3c72, #2a5298)",
-          color: "#fff",
-          border: "none",
-          borderRadius: "8px",
-          fontSize: "0.95rem",
-          fontWeight: "600",
-          cursor: "pointer",
-        }}
-      >
-        Add to Cart
-      </button>
+      {cartItem ? (
+   <div
+    style={{
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: "20px",
+      marginTop: "8px",
+    }}
+  >
+    <button
+      onClick={() => decrease(product.id)}
+      style={{
+        width: "38px",
+        height: "38px",
+        borderRadius: "50%",
+        border: "1px solid #ccc",
+        background: "#fff",
+        fontSize: "20px",
+        fontWeight: "600",
+        cursor: "pointer",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      −
+    </button>
+
+    <span
+      style={{
+        fontWeight: "600",
+        fontSize: "18px",
+        minWidth: "20px",
+        textAlign: "center",
+      }}
+    >
+      {cartItem.qty}
+    </span>
+
+    <button
+      onClick={() => increase(product.id)}
+      style={{
+        width: "38px",
+        height: "38px",
+        borderRadius: "50%",
+        border: "1px solid #ccc",
+        background: "#fff",
+        fontSize: "20px",
+        fontWeight: "600",
+        cursor: "pointer",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      +
+    </button>
+  </div>
+) : (
+  <button
+    onClick={handleAddToCart}
+    style={{
+      padding: "10px",
+      background: "linear-gradient(90deg, #1e3c72, #2a5298)",
+      color: "#fff",
+      border: "none",
+      borderRadius: "8px",
+      fontSize: "0.95rem",
+      fontWeight: "600",
+      cursor: "pointer",
+    }}
+  >
+    Add to Cart
+  </button>
+)}
+
     </div>
   );
 }
